@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { defaultModels, loadIntegrations, saveIntegrations, type Integrations } from "@/lib/integrations"
 import { inspectSupabase } from "@/lib/inspect"
 import { runPrompt, schemaPrompt } from "@/lib/llm"
@@ -80,16 +80,17 @@ function LlmCard({
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="llm-provider">Provider</Label>
-              <Select
-                id="llm-provider"
-                value={provider}
-                onChange={(e) => onProviderChange(e.target.value as LlmProvider)}
-              >
-                {providers.map((p) => (
-                  <option key={p} value={p}>
-                    {p}
-                  </option>
-                ))}
+              <Select value={provider} onValueChange={(value) => onProviderChange(value as LlmProvider)}>
+                <SelectTrigger id="llm-provider">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {providers.map((p) => (
+                    <SelectItem key={p} value={p}>
+                      {p}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
