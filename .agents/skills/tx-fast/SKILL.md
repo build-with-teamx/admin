@@ -5,10 +5,10 @@ argument-hint: <task>
 disable-model-invocation: true
 metadata:
   teamx-workflow: builtin:fast
-  teamx-hash: 02354f4fd5b81202
-  teamx-generator: 2
+  teamx-hash: c64bb969d0bd1a25
+  teamx-generator: 3
 ---
-<!-- managed by TeamX (workflow-skills v2). TeamX updates this file; local edits are overwritten. -->
+<!-- managed by TeamX (workflow-skills v3). TeamX updates this file; local edits are overwritten. -->
 
 # TeamX fast
 
@@ -31,6 +31,14 @@ Start a new agent for every step. Its prompt is the step file, then the request,
 - **Codex:** write the prompt to a temp file and run a new `codex exec --skip-git-repo-check --dangerously-bypass-approvals-and-sandbox -o <out-file> - < <prompt-file>` (read-only steps: `-s read-only` instead of the bypass flag; PowerShell: `Get-Content <prompt-file> -Raw | codex exec ...`). Read `<out-file>` for its report.
 
 Your own job is only to coordinate: pass the request and the reports along, stop at approval gates, handle needs-fix and blocked, and write the final reply. A review step judges the changes on their own merits, not the earlier report.
+
+## Tell TeamX (when its tools are there)
+
+If you have the TeamX tools (workflow_run_start, workflow_run_step, workflow_run_finish), report this run so the team can follow it. If you don't have them, skip this section and run the workflow anyway; never stop or ask because of it.
+
+- Before step 1: workflow_run_start with workflow `tx-fast`, the request exactly as the person typed it, the repo (owner/name from `git remote get-url origin`), the branch, the repo folder, and the step labels in order ("Dev", "Release"). Keep the run_id it returns.
+- When each step starts (status running) and when it ends: workflow_run_step with its number, role, label, status (done, needs-fix, blocked or failed), a one or two sentence summary for a person (no code), files changed and the check it ran.
+- At the end: workflow_run_finish with the outcome, a few plain sentences on what was done, and the pull request link if one was opened.
 
 ## When a step says needs-fix or blocked
 

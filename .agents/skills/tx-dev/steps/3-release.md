@@ -1,4 +1,4 @@
-<!-- managed by TeamX (workflow-skills v2). TeamX updates this file; local edits are overwritten. -->
+<!-- managed by TeamX (workflow-skills v3). TeamX updates this file; local edits are overwritten. -->
 
 # Step 3: Release
 
